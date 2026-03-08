@@ -30,10 +30,6 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on Port ${process.env.PORT}!`);
-});
-
 app.use("/api/user", userRouter); //api/user
 app.use("/api/auth", authRouter); //api/auth
 app.use("/api/listing", listingRouter); //api/listing
@@ -53,4 +49,8 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on Port ${process.env.PORT}!`);
 });
