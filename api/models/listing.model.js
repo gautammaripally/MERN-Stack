@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { DEFAULT_LISTING_IMAGE } from "../utils/listing.js";
 
 const listingSchema = new mongoose.Schema(
   {
@@ -48,11 +49,15 @@ const listingSchema = new mongoose.Schema(
     },
     imageUrls: {
       type: Array,
-      required: true,
+      default: [DEFAULT_LISTING_IMAGE],
     },
     userRef: {
       type: String,
       required: true,
+    },
+    sampleData: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

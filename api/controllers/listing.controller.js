@@ -1,10 +1,14 @@
 import Listing from "../models/listing.model.js";
+import Message from "../models/message.model.js";
 import { errorHandler } from "../utils/error.js";
+import { sanitizeListingPayload } from "../utils/listing.js";
 
 //Create Listing
 export const createListing = async (req, res, next) => {
   try {
-    const listing = await Listing.create(req.body);
+    const listing = await Listing.create(
+      sanitizeListingPayload(req.body, req.user.id)
+    );
     return res.status(201).json(listing);
   } catch (error) {
     next(error);
@@ -24,6 +28,7 @@ export const deleteListing = async (req, res, next) => {
   }
 
   try {
+    await Message.deleteMany({ listingRef: req.params.id });
     await Listing.findByIdAndDelete(req.params.id);
     res.status(200).json("Listing has been deleted!");
   } catch (error) {
@@ -45,7 +50,7 @@ export const updateListing = async (req, res, next) => {
   try {
     const updatedListing = await Listing.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      sanitizeListingPayload(req.body, listing.userRef),
       { new: true }
     );
     res.status(200).json(updatedListing);

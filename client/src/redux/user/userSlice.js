@@ -4,6 +4,7 @@ const initialState = {
   currentUser: null,
   error: null,
   loading: false,
+  unreadCount: 0,
 };
 
 const userSlice = createSlice({
@@ -41,6 +42,7 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = null;
+      state.unreadCount = 0;
     },
     deleteUserFailure: (state, action) => {
       state.error = action.payload;
@@ -53,10 +55,14 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = null;
+      state.unreadCount = 0;
     },
     signOutUserFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    },
+    setUnreadCount: (state, action) => {
+      state.unreadCount = action.payload;
     },
   },
 });
@@ -74,6 +80,7 @@ export const {
   signOutUserFailure,
   signOutUserSuccess,
   signOutUserStart,
+  setUnreadCount,
 } = userSlice.actions;
 
 export default userSlice.reducer;
